@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true"
+    tools:context=".ui.test.DarkTestAty">
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/test_change_language"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_pic"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="@dimen/view_space_12"
+        android:background="@color/cGrey_bg"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv1" />
+
+    <Button
+        android:id="@+id/btn_default"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="default"
+        app:layout_constraintTop_toBottomOf="@+id/iv_pic" />
+
+    <Button
+        android:id="@+id/btn_dark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="dark"
+        app:layout_constraintTop_toBottomOf="@+id/btn_default" />
+
+    <Button
+        android:id="@+id/btn_light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="light"
+        app:layout_constraintTop_toBottomOf="@+id/btn_dark" />
+
+    <Button
+        android:id="@+id/btn_system"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="system"
+        app:layout_constraintTop_toBottomOf="@+id/btn_light" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">RxUtils</string>
+    <string name="warning_empty">Nothing here!</string>
+    <string name="str_none" />
+    <string name="loading">Loading</string>
+    <string name="load_failed"></string>
+    <string name="load_suc"></string>
+    <string name="load_failed_no_network">Oops, network is lost!  click to retry</string>
+    <string name="SERVER_IP">www.miraclegenesis.cn</string>
+
+    <string name="test_change_language">my life is very ordinary</string>
+
+    <string name="nourl">Invalid link</string>
+    <string name="rplay">Replay</string>
+    <string name="click_restart">Retry</string>
+    <string name="_not_wifi">You are currently using a mobile network and continuing to play will consume traffic</string>
+    <string name="_not_wifi_confirm">Continue</string>
+    <string name="_not_wifi_cancel">Stop</string>
+    <string name="_loading_failed">Loading failed</string>
+</resources>
