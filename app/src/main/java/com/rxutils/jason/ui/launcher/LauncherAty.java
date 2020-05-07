@@ -26,7 +26,18 @@ public class LauncherAty extends BaseActivity<LauncherPresenter> implements Laun
                 WebHtmlAty.launchWebAty(getCurActivity(), SetConfig.URL_GERR_TEST2);
             }
         });
-        delayFun(2000, new Runnable() {
+//        delayFun(2000, new Runnable() {
+//            @Override
+//            public void run() {
+//                mPresenter.playVideo();
+//            }
+//        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        delayFun(1000, new Runnable() {
             @Override
             public void run() {
                 mPresenter.playVideo();
@@ -35,21 +46,10 @@ public class LauncherAty extends BaseActivity<LauncherPresenter> implements Laun
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-     /*   delayFun(1000, new Runnable() {
-            @Override
-            public void run() {
-                mPresenter.playVideo();
-            }
-        });*/
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
         try {
-        Jzvd.releaseAllVideos();
+            Jzvd.releaseAllVideos();
         } catch (Exception e) {
             GlobalCode.printLog(e);
         }
@@ -59,7 +59,7 @@ public class LauncherAty extends BaseActivity<LauncherPresenter> implements Laun
     protected void onDestroy() {
         super.onDestroy();
         try {
-        Jzvd.releaseAllVideos();
+            Jzvd.releaseAllVideos();
 
         } catch (Exception e) {
             e.printStackTrace();
