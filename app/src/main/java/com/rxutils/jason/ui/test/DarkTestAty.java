@@ -1,29 +1,20 @@
 package com.rxutils.jason.ui.test;
 
-import android.os.Build;
-import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
-
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.rxutils.jason.R;
 import com.rxutils.jason.base.BaseActivity;
 import com.rxutils.jason.base.BasePresenter;
 import com.rxutils.jason.common.SetConfig;
 import com.rxutils.jason.common.UIhelper;
-import com.rxutils.jason.global.GlobalCode;
 import com.rxutils.jason.ui.launcher.LauncherAty;
 
 import java.io.DataOutputStream;
 import java.io.OutputStream;
 
-import static com.rxutils.jason.common.AppLanguageUtils.getLocaleByLanguage;
 import static com.rxutils.jason.common.AppLanguageUtils.onChangeAppLanguage;
-
 
 public class DarkTestAty extends BaseActivity implements View.OnClickListener {
 
@@ -34,18 +25,10 @@ public class DarkTestAty extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initAty() {
-        GlobalCode.printLog("initAty>>>>");
         findViewById(R.id.btn_default).setOnClickListener(this);
         findViewById(R.id.btn_dark).setOnClickListener(this);
         findViewById(R.id.btn_light).setOnClickListener(this);
         findViewById(R.id.btn_system).setOnClickListener(this);
-        delayFun(5000, new Runnable() {
-            @Override
-            public void run() {
-                GlobalCode.printLog("click>>");
-//                findViewById(R.id.btn_system).performClick();
-            }
-        });
     }
 
     @Override
@@ -53,11 +36,9 @@ public class DarkTestAty extends BaseActivity implements View.OnClickListener {
         return null;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onResume() {
         super.onResume();
-//        GlobalCode.printLog("cur_lang2:" + getResources().getConfiguration().getLocales());
     }
 
     @Override
@@ -70,9 +51,9 @@ public class DarkTestAty extends BaseActivity implements View.OnClickListener {
         } else if (v.getId() == R.id.btn_system) {
             UIhelper.switch2Aty(getCurActivity(), LauncherAty.class);
         }
-//        setResult(SetConfig.CODE_COMMON_BACK);
-//        recreate();
-//        finish();
+        setResult(SetConfig.CODE_COMMON_BACK);
+        recreate();
+        finish();
     }
 
  /*   public void onChangeAppLanguage(String newLanguage) {

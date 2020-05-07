@@ -2,6 +2,8 @@ package com.rxutils.jason.ui.workflow;
 
 import android.util.SparseArray;
 
+import com.rxutils.jason.global.GlobalCode;
+
 /**
  * @author  jason-何伟杰，19/11/26
  * des:工作流  //草，sparseArray内部是数组实现，按key的大小升序排列，key值大小决定执行顺序
@@ -129,7 +131,7 @@ public class WorkFlow {
         final WorkNode nextNode = flowNodes.valueAt(nextIndex);
         if (null != nextNode) {
             this.recentNode = nextNode;
-            System.out.println("work>>>" + startIndex);
+            GlobalCode.printLog("work>>>" + startIndex);
             nextNode.doWork(new WorkNode.WorkCallBack() {
                 @Override
                 public void onWorkCompleted() {

@@ -22,7 +22,7 @@ import java.util.Locale;
  */
 public class AppLanguageUtils {
 
-    public static HashMap<String, Locale> mAllLanguages = new HashMap<String, Locale>(3) {{
+    public static HashMap<String, Locale> mAllLanguages = new HashMap<String, Locale>(2) {{
         put(SetConfig.CODE_LANGUAGE_ENGLISH, Locale.ENGLISH);
         put(SetConfig.CODE_LANGUAGE_CHINESE, Locale.CHINESE);
     }};
@@ -39,7 +39,6 @@ public class AppLanguageUtils {
 
     @SuppressWarnings("deprecation")  //app全局设置语言
     public static void changeAppLanguage(Context context, String newLanguage) {
-        GlobalCode.printLog("global_lang:" + newLanguage);
         Resources resources = context.getResources();
         Configuration configuration = resources.getConfiguration();
 
@@ -86,11 +85,9 @@ public class AppLanguageUtils {
      */
     public static Locale getLocaleByLanguage(String language) {
         if (isSupportLanguage(language)) {
-            GlobalCode.printLog("local_" + mAllLanguages.get(language));
             return mAllLanguages.get(language);
         } else {
             Locale locale = Locale.getDefault();
-            GlobalCode.printLog("default>>"+locale);
             for (String key : mAllLanguages.keySet()) {
                 if (TextUtils.equals(mAllLanguages.get(key).getLanguage(), locale.getLanguage())) {
                     return locale;
@@ -115,11 +112,9 @@ public class AppLanguageUtils {
         Resources resources = context.getResources();
         Locale locale = AppLanguageUtils.getLocaleByLanguage(language);
 
-        GlobalCode.printLog("upadata>>" + locale);
         Configuration configuration = resources.getConfiguration();
         configuration.setLocale(locale);
         configuration.setLocales(new LocaleList(locale));
-        GlobalCode.printLog("llls=="+new LocaleList(locale));
         return context.createConfigurationContext(configuration);
     }
 }

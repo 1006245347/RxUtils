@@ -1,18 +1,19 @@
 package com.rxutils.jason;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.webkit.WebView;
+import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.rxutils.jason.common.AppLanguageUtils;
 import com.rxutils.jason.common.SetConfig;
 import com.rxutils.jason.common.UIhelper;
-import com.rxutils.jason.global.GlobalCode;
 import com.rxutils.jason.ui.test.BrowserAty;
 import com.rxutils.jason.ui.test.DarkTestAty;
+import com.rxutils.jason.utils.MMKVUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppLanguageUtils.changeAppLanguage(this, MMKVUtil.getStr(SetConfig.CODE_LANGUAGE_SET, SetConfig.CODE_LANGUAGE_CHINESE));
         setContentView(R.layout.activity_main);
         findViewById(R.id.tv_change).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 testBrowserAty();
             }
         });
+        findViewById(R.id.tv_change).performClick();
     }
 
     private void testChangeLanguage() {
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        GlobalCode.printLog("cur_lang1:"+getResources().getConfiguration().getLocales());
+        TextView tv_code = findViewById(R.id.tv_code);
+        tv_code.setText("version: "+UIhelper.getVersionName());
     }
 }

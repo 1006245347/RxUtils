@@ -21,6 +21,8 @@ import com.tencent.bugly.beta.download.DownloadListener;
 import com.tencent.bugly.beta.download.DownloadTask;
 import com.tencent.bugly.beta.upgrade.UpgradeStateListener;
 import com.tencent.mmkv.MMKV;
+import com.tencent.mmkv.MMKVHandler;
+import com.tencent.mmkv.MMKVLogLevel;
 import com.tencent.smtt.sdk.QbSdk;
 
 import java.io.File;
@@ -46,9 +48,8 @@ public class RxApp extends Application {
         Gloading.initDefault(new GlobalAdapter());
         initTBS();
         initBugly();
-        new MMKVUtil.Builder().setSavePath(CODE_CACHE_FILE).build();
+        new MMKVUtil.Builder().setSavePath(getPadCacheDir().getAbsolutePath()).build();
         devLanguage = MMKVUtil.getStr(SetConfig.CODE_LANGUAGE_SET, SetConfig.CODE_LANGUAGE_CHINESE);
-        GlobalCode.printLog("dev_lang="+devLanguage);
         onLanguageChange();
     }
 
@@ -229,10 +230,9 @@ public class RxApp extends Application {
     }
 
     private String getAppLanguage(Context context) {
-        MMKV.initialize(context);
-        MMKV kv = MMKV.mmkvWithID(SetConfig.CODE_CACHE_FILE, MMKV.SINGLE_PROCESS_MODE);
+        MMKV.initialize(context.getExternalFilesDir("gree_pad_dir").getAbsolutePath());
+        MMKV kv = MMKV.mmkvWithID(context.getExternalFilesDir("gree_pad_dir").getAbsolutePath(), MMKV.MULTI_PROCESS_MODE);
         String strLang = kv.decodeString(SetConfig.CODE_LANGUAGE_SET, SetConfig.CODE_LANGUAGE_CHINESE);
-        GlobalCode.printLog("strLang:"+strLang);
         return strLang;
     }
 

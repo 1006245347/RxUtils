@@ -8,8 +8,11 @@ import android.view.WindowManager;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.jakewharton.rxbinding2.view.RxView;
+import com.rxutils.jason.common.AppLanguageUtils;
+import com.rxutils.jason.common.SetConfig;
 import com.rxutils.jason.http.RxSchedulers;
 import com.rxutils.jason.utils.ActivityStackUtil;
+import com.rxutils.jason.utils.MMKVUtil;
 import com.rxutils.jason.utils.ViewUtil;
 import com.rxutils.jason.widget.Gloading;
 import java.util.concurrent.TimeUnit;
@@ -28,6 +31,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        AppLanguageUtils.changeAppLanguage(this, MMKVUtil.getStr(SetConfig.CODE_LANGUAGE_SET,SetConfig.CODE_LANGUAGE_CHINESE));
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());

@@ -70,7 +70,6 @@ public class MMKVUtil {
 
     public static void init(@Nullable String savePath) {
         if (TextUtils.isEmpty(savePath)) {
-            GlobalCode.printLog("path="+savePath);
             MMKV.initialize(RxApp.getContext());
             kv = MMKV.defaultMMKV();
         } else {

@@ -13,7 +13,6 @@ public class LauncherAty extends BaseActivity<LauncherPresenter> implements Laun
 
     @Override
     protected void initAty() {
-        mPresenter.initView();
         clickFun(R.id.line_bottom, new Runnable() {
             @Override
             public void run() {
@@ -32,6 +31,7 @@ public class LauncherAty extends BaseActivity<LauncherPresenter> implements Laun
 //                mPresenter.playVideo();
 //            }
 //        });
+
     }
 
     @Override

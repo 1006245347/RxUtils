@@ -2,11 +2,13 @@
     <string name="app_name">RxUtils</string>
     <string name="warning_empty">空空如耶!</string>
     <string name="str_none" />
-    <string name="loading">Loading</string>
+    <string name="loading">加载中...</string>
     <string name="load_failed"></string>
     <string name="load_suc"></string>
     <string name="load_failed_no_network">Oops, network is lost!  click to retry</string>
     <string name="SERVER_IP">www.miraclegenesis.cn</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <string name="test_change_language">我的生活非常普通</string>
 
