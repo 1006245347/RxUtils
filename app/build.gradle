@@ -25,6 +25,9 @@ dependencies {
     api 'com.github.bumptech.glide:glide:3.7.0'
     //崩溃上报-更新
     implementation(name: 'bugly_crashreport_upgrade-1.4.2', ext: 'aar')
+    //mtqq推送
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.1'
 
     //UI控件
     implementation 'androidx.recyclerview:recyclerview:1.1.0'

@@ -13,36 +13,36 @@ public class LauncherAty extends BaseActivity<LauncherPresenter> implements Laun
 
     @Override
     protected void initAty() {
-        clickFun(R.id.line_bottom, new Runnable() {
+        clickFun(R.id.btn1, new Runnable() {
             @Override
             public void run() {
                 WebHtmlAty.launchWebAty(getCurActivity(), SetConfig.URL_GERR_TEST1);
             }
         });
-        clickFun(R.id.line_right, new Runnable() {
+        clickFun(R.id.btn2, new Runnable() {
             @Override
             public void run() {
                 WebHtmlAty.launchWebAty(getCurActivity(), SetConfig.URL_GERR_TEST2);
             }
         });
-//        delayFun(2000, new Runnable() {
-//            @Override
-//            public void run() {
-//                mPresenter.playVideo();
-//            }
-//        });
+        delayFun(100, new Runnable() {
+            @Override
+            public void run() {
+                mPresenter.playVideo();
+            }
+        });
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        delayFun(1000, new Runnable() {
-            @Override
-            public void run() {
-                mPresenter.playVideo();
-            }
-        });
+//        delayFun(1000, new Runnable() {
+//            @Override
+//            public void run() {
+//                mPresenter.playVideo();
+//            }
+//        });
     }
 
     @Override

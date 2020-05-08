@@ -1,6 +1,8 @@
 package com.rxutils.jason;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -19,9 +21,11 @@ public class MainActivity extends AppCompatActivity {
 
     private final int CODE_CHANGE_LANGUAGE = 0x09;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         AppLanguageUtils.changeAppLanguage(this, MMKVUtil.getStr(SetConfig.CODE_LANGUAGE_SET, SetConfig.CODE_LANGUAGE_CHINESE));
         setContentView(R.layout.activity_main);
         findViewById(R.id.tv_change).setOnClickListener(new View.OnClickListener() {
@@ -36,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 testBrowserAty();
             }
         });
-        findViewById(R.id.tv_change).performClick();
+//        findViewById(R.id.tv_change).performClick();
     }
 
     private void testChangeLanguage() {

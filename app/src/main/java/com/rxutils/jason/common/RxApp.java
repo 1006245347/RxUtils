@@ -21,14 +21,11 @@ import com.tencent.bugly.beta.download.DownloadListener;
 import com.tencent.bugly.beta.download.DownloadTask;
 import com.tencent.bugly.beta.upgrade.UpgradeStateListener;
 import com.tencent.mmkv.MMKV;
-import com.tencent.mmkv.MMKVHandler;
-import com.tencent.mmkv.MMKVLogLevel;
 import com.tencent.smtt.sdk.QbSdk;
 
 import java.io.File;
 
 import static com.rxutils.jason.common.SetConfig.BUGLY_APPID;
-import static com.rxutils.jason.common.SetConfig.CODE_CACHE_FILE;
 
 /**
  * Created by jason-何伟杰，19/8/20
@@ -47,7 +44,7 @@ public class RxApp extends Application {
         Gloading.debug(BuildConfig.DEBUG);
         Gloading.initDefault(new GlobalAdapter());
         initTBS();
-        initBugly();
+//        initBugly();
         new MMKVUtil.Builder().setSavePath(getPadCacheDir().getAbsolutePath()).build();
         devLanguage = MMKVUtil.getStr(SetConfig.CODE_LANGUAGE_SET, SetConfig.CODE_LANGUAGE_CHINESE);
         onLanguageChange();
@@ -211,6 +208,13 @@ public class RxApp extends Application {
      */
     public File getPadCacheDir() {
         return getExternalFilesDir("gree_pad_dir");
+    }
+
+    /**
+     * @return 本软件的下载目录
+     */
+    public File getDownLoadDir() {
+        return getExternalFilesDir("gree_download_dir");
     }
 
     @Override

@@ -1,5 +1,9 @@
 package com.rxutils.jason.ui.test;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.MessageQueue;
 import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.View;
@@ -7,21 +11,26 @@ import android.view.View;
 import com.rxutils.jason.R;
 import com.rxutils.jason.base.BaseActivity;
 import com.rxutils.jason.base.BasePresenter;
+import com.rxutils.jason.common.RxApp;
 import com.rxutils.jason.common.SetConfig;
 import com.rxutils.jason.common.UIhelper;
+import com.rxutils.jason.global.GlobalCode;
 import com.rxutils.jason.ui.launcher.LauncherAty;
+import com.rxutils.jason.ui.server.IGetMessageCallBack;
+import com.rxutils.jason.ui.server.MQTTService;
+import com.rxutils.jason.ui.server.MyServiceConnection;
+import com.rxutils.jason.utils.ToastUtil;
 
 import java.io.DataOutputStream;
 import java.io.OutputStream;
 
 import static com.rxutils.jason.common.AppLanguageUtils.onChangeAppLanguage;
 
-public class DarkTestAty extends BaseActivity implements View.OnClickListener {
+public class DarkTestAty extends BaseActivity implements View.OnClickListener, IGetMessageCallBack {
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_dark_test_aty;
-    }
+
+    private MyServiceConnection serviceConnection;
+    private MQTTService mqttService;
 
     @Override
     protected void initAty() {
@@ -29,16 +38,27 @@ public class DarkTestAty extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.btn_dark).setOnClickListener(this);
         findViewById(R.id.btn_light).setOnClickListener(this);
         findViewById(R.id.btn_system).setOnClickListener(this);
+//        initMTQQ();
+    }
+
+    private void initMTQQ() {
+        serviceConnection = new MyServiceConnection();
+        serviceConnection.setIGetMessageCallBack(this);
+        Intent intent = new Intent(this, MQTTService.class);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
-    protected BasePresenter onCreatePresenter() {
-        return null;
+    public void setMessage(String message) {
+        ToastUtil.showToast(message);
+        mqttService = serviceConnection.getMqttService();
+        mqttService.toCreateNotification(message);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onDestroy() {
+//        unbindService(serviceConnection);
+        super.onDestroy();
     }
 
     @Override
@@ -46,14 +66,16 @@ public class DarkTestAty extends BaseActivity implements View.OnClickListener {
         if (v.getId() == R.id.btn_default) {
             onChangeAppLanguage(this, SetConfig.CODE_LANGUAGE_CHINESE);
         } else if (v.getId() == R.id.btn_light) {
+//            GlobalCode.copyAssets2Dev("Whale Launcher.apk", ((RxApp)RxApp.getContext()).getDownLoadDir().getAbsolutePath()+"/launcher.apk");
+//            MQTTService.publish("jason publish sth ,do you see it?");
         } else if (v.getId() == R.id.btn_dark) {
             onChangeAppLanguage(this, SetConfig.CODE_LANGUAGE_ENGLISH);
         } else if (v.getId() == R.id.btn_system) {
             UIhelper.switch2Aty(getCurActivity(), LauncherAty.class);
         }
-        setResult(SetConfig.CODE_COMMON_BACK);
-        recreate();
-        finish();
+//        setResult(SetConfig.CODE_COMMON_BACK);
+//        recreate();
+//        finish();
     }
 
  /*   public void onChangeAppLanguage(String newLanguage) {
@@ -122,5 +144,20 @@ public class DarkTestAty extends BaseActivity implements View.OnClickListener {
         execShellCmd("input tap 168 252");
         execShellCmd("input swipe 100 250 200 280");
         //更换图标 https://www.jianshu.com/p/707e3e347361
+    }
+
+    @Override
+    protected BasePresenter onCreatePresenter() {
+        return null;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_dark_test_aty;
     }
 }

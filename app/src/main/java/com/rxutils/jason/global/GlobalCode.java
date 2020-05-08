@@ -8,15 +8,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.rxutils.jason.common.RxApp;
 import com.rxutils.jason.http.ApiEngine;
 import com.rxutils.jason.http.FileUploadObserver;
 import com.rxutils.jason.utils.ActivityStackUtil;
+import com.rxutils.jason.utils.ToastUtil;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -24,6 +27,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
@@ -340,5 +345,46 @@ public class GlobalCode {
                 .getSystemService(Context.TELEPHONY_SERVICE)).getNetworkOperatorName()
                 .toLowerCase()
                 .equals("android") || !canCallPhone;
+    }
+
+
+    /**
+     * @param filePath 源文件夹名
+     * @param devPath  目标文件夹名
+     */
+    public static void copyAssets2Dev(String filePath, String devPath) {
+        try {
+            String fileNames[] = RxApp.getContext().getAssets().list(filePath);
+            GlobalCode.printLog("assets-"+fileNames.length);
+            if (fileNames.length > 0) {
+                File file = new File(devPath);
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
+                for (String fileName : fileNames) {
+                    if (!TextUtils.isEmpty(filePath)) { //assets文件夹
+                        copyAssets2Dev(filePath + File.separator + fileName, devPath + File.separator + fileName);
+                    } else {
+                        copyAssets2Dev(fileName, devPath + File.separator + fileName);
+                    }
+                }
+            } else {
+                File outFile = new File(devPath);
+                InputStream is = RxApp.getContext().getAssets().open(filePath);
+                FileOutputStream fos = new FileOutputStream(outFile);
+                byte[] buffer = new byte[1024];
+                int byteCount;
+                while ((byteCount = is.read(buffer)) != -1) {
+                    fos.write(buffer,0,byteCount);
+                }
+                fos.flush();
+                is.close();
+                fos.close();
+            }
+        } catch (Exception e) {
+            GlobalCode.printLog(e);
+        }finally {
+            ToastUtil.showToast("assets-finsh");
+        }
     }
 }
