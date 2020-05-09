@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+//调试环境下注释
+apply from: 'tinker-support.gradle'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -25,6 +27,9 @@ dependencies {
     api 'com.github.bumptech.glide:glide:3.7.0'
     //崩溃上报-更新
     implementation(name: 'bugly_crashreport_upgrade-1.4.2', ext: 'aar')
+    implementation "com.android.support:multidex:1.0.1" // 多dex配置
+    // 指定tinker依赖版本（注：应用升级1.3.5版本起，不再内置tinker）
+    implementation 'com.tencent.tinker:tinker-android-lib:1.9.6'
     //mtqq推送
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.1'
@@ -43,12 +48,13 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         ndk {
-            abiFilters "armeabi", "armeabi-v7a", "x86"
+            abiFilters "armeabi", "x86" //"armeabi-v7a",
         }
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
     //指定打包后应用名称
     android.applicationVariants.all { variant ->
         variant.outputs.all {

@@ -6,12 +6,13 @@ import android.content.res.Configuration;
 import android.os.Environment;
 
 import androidx.annotation.NonNull;
+import androidx.multidex.MultiDex;
 
 import com.rxutils.jason.BuildConfig;
-import com.rxutils.jason.MainActivity;
 import com.rxutils.jason.R;
 import com.rxutils.jason.global.GlobalAdapter;
 import com.rxutils.jason.global.GlobalCode;
+import com.rxutils.jason.ui.launcher.LauncherAty;
 import com.rxutils.jason.utils.MMKVUtil;
 import com.rxutils.jason.utils.ToastUtil;
 import com.rxutils.jason.widget.Gloading;
@@ -19,11 +20,16 @@ import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.download.DownloadListener;
 import com.tencent.bugly.beta.download.DownloadTask;
+import com.tencent.bugly.beta.interfaces.BetaPatchListener;
 import com.tencent.bugly.beta.upgrade.UpgradeStateListener;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mmkv.MMKV;
 import com.tencent.smtt.sdk.QbSdk;
+import com.tencent.smtt.sdk.WebView;
 
 import java.io.File;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static com.rxutils.jason.common.SetConfig.BUGLY_APPID;
 
@@ -44,7 +50,8 @@ public class RxApp extends Application {
         Gloading.debug(BuildConfig.DEBUG);
         Gloading.initDefault(new GlobalAdapter());
         initTBS();
-//        initBugly();
+        initTinker();
+        initBugly();
         new MMKVUtil.Builder().setSavePath(getPadCacheDir().getAbsolutePath()).build();
         devLanguage = MMKVUtil.getStr(SetConfig.CODE_LANGUAGE_SET, SetConfig.CODE_LANGUAGE_CHINESE);
         onLanguageChange();
@@ -117,7 +124,10 @@ public class RxApp extends Application {
          * 后续更新资源会保存在此目录，需要在manifest中添加WRITE_EXTERNAL_STORAGE权限;
          */
         Beta.storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-
+        /**
+         * 开启热更新能力
+         */
+        Beta.enableHotfix = true;
         /*设置是否显示消息通知*/
 //        Beta.enableNotification = true;
         /*设置wifi下自动下载*/
@@ -140,7 +150,7 @@ public class RxApp extends Application {
          * 只允许在MainActivity上显示更新弹窗，其他activity上不显示弹窗;
          * 不设置会默认所有activity都可以显示弹窗;
          */
-        Beta.canShowUpgradeActs.add(MainActivity.class);
+        Beta.canShowUpgradeActs.add(LauncherAty.class);
 
         //监听安装包下载状态
         Beta.downloadListener = new DownloadListener() {
@@ -196,7 +206,74 @@ public class RxApp extends Application {
          * 参数2：appId
          * 参数3：是否开启debug
          */
-        Bugly.init(getApplicationContext(), BUGLY_APPID, !BuildConfig.DEBUG);
+        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(mContext);
+        strategy.setCrashHandleCallback(new CrashReport.CrashHandleCallback() {
+                                            @Override
+                                            public synchronized Map<String, String> onCrashHandleStart(int crashType, String errorType, String errorMessage, String errorStack) {
+                                                LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+                                                String x5CrashInfo = WebView.getCrashExtraMessage(mContext);
+                                                map.put("x5", x5CrashInfo);
+                                                return map;
+//                                                return super.onCrashHandleStart(crashType, errorType, errorMessage, errorStack);
+                                            }
+
+                                            @Override
+                                            public synchronized byte[] onCrashHandleStart2GetExtraDatas(int crashType, String errorType, String errorMessage, String errorStack) {
+                                                try {
+                                                    return "Extra data.".getBytes("UTF-8");
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                    return null;
+                                                }
+//                                                return super.onCrashHandleStart2GetExtraDatas(crashType, errorType, errorMessage, errorStack);
+                                            }
+                                        }
+        );
+        //统一初始化 调试时第三个参数=true
+        Bugly.init(getApplicationContext(), BUGLY_APPID, BuildConfig.DEBUG, strategy);
+    }
+
+    private void initTinker() {
+        //设置是否提示用户重启，默认false
+        Beta.canNotifyUserRestart = true;
+        Beta.betaPatchListener = new BetaPatchListener() {
+            @Override
+            public void onPatchReceived(String s) {
+                GlobalCode.printLog("patchfile-" + s);
+            }
+
+            @Override
+            public void onDownloadReceived(long l, long l1) {
+
+            }
+
+            @Override
+            public void onDownloadSuccess(String s) {
+                GlobalCode.printLog("patch-" + s);
+            }
+
+            @Override
+            public void onDownloadFailure(String s) {
+                GlobalCode.printLog("patch-" + s);
+            }
+
+            @Override
+            public void onApplySuccess(String s) {
+                GlobalCode.printLog("patchapply-" + s);
+            }
+
+            @Override
+            public void onApplyFailure(String s) {
+                GlobalCode.printLog("patchapply-" + s);
+            }
+
+            @Override
+            public void onPatchRollback() {
+
+            }
+        };
+        // 设置开发设备，默认为false，上传补丁如果下发范围指定为“开发设备”，需要调用此接口来标识开发设备
+        Bugly.setIsDevelopmentDevice(getContext(),true);
     }
 
     private void getAppUpdateInfo() {
@@ -220,6 +297,13 @@ public class RxApp extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(AppLanguageUtils.attachBaseContext(base, getAppLanguage(base)));
+//        super.attachBaseContext(base);
+        MultiDex.install(base);
+        if (!BuildConfig.DEBUG) {
+
+        }
+        //安装tinker
+        Beta.installTinker();
     }
 
     @Override

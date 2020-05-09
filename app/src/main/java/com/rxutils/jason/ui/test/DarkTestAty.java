@@ -3,6 +3,7 @@ package com.rxutils.jason.ui.test;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Bundle;
 import android.os.MessageQueue;
 import android.os.SystemClock;
 import android.view.MotionEvent;
@@ -20,6 +21,8 @@ import com.rxutils.jason.ui.server.IGetMessageCallBack;
 import com.rxutils.jason.ui.server.MQTTService;
 import com.rxutils.jason.ui.server.MyServiceConnection;
 import com.rxutils.jason.utils.ToastUtil;
+import com.tencent.smtt.sdk.TbsVideo;
+import com.tencent.smtt.sdk.TbsVideoUtils;
 
 import java.io.DataOutputStream;
 import java.io.OutputStream;
@@ -68,6 +71,7 @@ public class DarkTestAty extends BaseActivity implements View.OnClickListener, I
         } else if (v.getId() == R.id.btn_light) {
 //            GlobalCode.copyAssets2Dev("Whale Launcher.apk", ((RxApp)RxApp.getContext()).getDownLoadDir().getAbsolutePath()+"/launcher.apk");
 //            MQTTService.publish("jason publish sth ,do you see it?");
+            x5Play();
         } else if (v.getId() == R.id.btn_dark) {
             onChangeAppLanguage(this, SetConfig.CODE_LANGUAGE_ENGLISH);
         } else if (v.getId() == R.id.btn_system) {
@@ -76,6 +80,14 @@ public class DarkTestAty extends BaseActivity implements View.OnClickListener, I
 //        setResult(SetConfig.CODE_COMMON_BACK);
 //        recreate();
 //        finish();
+    }
+
+    private void x5Play() {
+        if (TbsVideo.canUseTbsPlayer(this)) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("screenMode",102);
+            TbsVideo.openVideo(this,"https://youku.com-l-youku.com/20190207/20335_d1f19bfb/index.m3u8",bundle);
+        }
     }
 
  /*   public void onChangeAppLanguage(String newLanguage) {

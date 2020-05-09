@@ -3,7 +3,6 @@ package com.rxutils.jason.ui.launcher;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.view.ViewGroup;
 
 import com.rxutils.jason.R;
 import com.rxutils.jason.base.BaseActivity;
@@ -37,7 +36,7 @@ public class WebHtmlAty extends BaseActivity {
         String url = getIntent().getStringExtra("url");
         if (!TextUtils.isEmpty(url)) {
 //            webView.loadDataWithBaseURL(url,"","text/html","utf-8",null);
-            GlobalCode.printLog("url="+url);
+            GlobalCode.printLog("url=" + url);
             webView.loadUrl(url);
         } else {
             ToastUtil.showToast("no link!");

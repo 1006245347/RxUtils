@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void testBrowserAty() {
-        UIhelper.switch2Aty(this, BrowserAty.class);
+        BrowserAty.launchBrowser(this,SetConfig.URL_GERR_TEST1);
     }
 
     @Override

@@ -3,7 +3,9 @@ package com.rxutils.jason.ui.test;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +26,18 @@ import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 import com.tencent.smtt.utils.TbsLog;
 
+import java.util.ArrayList;
+
 public class BrowserAty extends AppCompatActivity {
 
     private X5WebView webView;
 
+
+    public static void launchBrowser(Context context, String url) {
+        Intent intent = new Intent(context, BrowserAty.class);
+        intent.putExtra("url", url);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +58,6 @@ public class BrowserAty extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView webView, String s) {
                 super.onPageFinished(webView, s);
-
             }
         });
 
@@ -108,11 +117,26 @@ public class BrowserAty extends AppCompatActivity {
         // webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH);
         // webSetting.setPreFectch(true);
         long time = System.currentTimeMillis();
-        webView.loadUrl(SetConfig.URL_TEST2);
+//        webView.loadUrl(SetConfig.URL_TEST2);
+        webView.loadUrl(getIntent().getStringExtra("url"));
         TbsLog.d("time-cost", "cost time: "
                 + (System.currentTimeMillis() - time));
         CookieSyncManager.createInstance(this);
         CookieSyncManager.getInstance().sync();
+
+        //去除qq浏览器
+        getWindow().getDecorView().addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                ArrayList<View> outView = new ArrayList<View>();
+                getWindow().getDecorView().findViewsWithText(outView, "QQ浏览器", View.FIND_VIEWS_WITH_TEXT);
+                int size = outView.size();
+                if (outView != null && outView.size() > 0) {
+                    outView.get(0).setVisibility(View.GONE);
+                }
+            }
+        });
+
     }
 
     @Override

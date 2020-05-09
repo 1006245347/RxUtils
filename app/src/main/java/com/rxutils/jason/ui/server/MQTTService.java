@@ -25,18 +25,19 @@ import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-
+//https://blog.csdn.net/yang1159/article/details/86736640
+//cd 到mqtt实例目录  /bin>apollo-broker.cmd run 启动服务
 public class MQTTService extends Service {
 
     private static MqttAndroidClient client;
     private MqttConnectOptions conOpt;
 
-//    private String host = "jason_server@/broker.emqx.io/mqtt:8083";
-    private String host = "tcp://test@broker.emqx.io:8083";
+    //    private String host = "jason_server@/broker.emqx.io/mqtt:8083";
+    private String host = "tcp://172.28.31.108:61613";
     private String userName = "admin";
-    private String passWord = "admin";
-    private static String myTopic = "jason1";      //要订阅的主题
-    private String clientId = "mqttjs_c6478383";//客户端标识
+    private String passWord = "password";
+    private static String myTopic = "jason_topic";      //要订阅的主题
+    private String clientId = "lens_b73JbWaTCW9OfDACizkfyCxbq9K";//客户端标识
     private IGetMessageCallBack IGetMessageCallBack;
 
 
@@ -55,8 +56,9 @@ public class MQTTService extends Service {
                 client.publish(topic, msg.getBytes(), qos.intValue(), retained.booleanValue());
             }
         } catch (MqttException e) {
-//            e.printStackTrace();
             GlobalCode.printLog(e);
+        } finally {
+            GlobalCode.printLog("client>>" + client);
         }
     }
 
@@ -125,7 +127,7 @@ public class MQTTService extends Service {
             try {
                 client.connect(conOpt, null, iMqttActionListener);
             } catch (MqttException e) {
-                e.printStackTrace();
+                GlobalCode.printLog(e);
             }
         }
 
@@ -150,6 +152,7 @@ public class MQTTService extends Service {
         public void onFailure(IMqttToken arg0, Throwable arg1) {
             arg1.printStackTrace();
             // 连接失败，重连
+            GlobalCode.printLog(arg1);
         }
     };
 
@@ -164,7 +167,7 @@ public class MQTTService extends Service {
                 IGetMessageCallBack.setMessage(str1);
             }
             String str2 = topic + ";qos:" + message.getQos() + ";retained:" + message.isRetained();
-            GlobalCode.printLog("messageArrived" + str1 + " \n" + str2);
+            GlobalCode.printLog("messageArrived:" + str1 + " \n" + str2);
         }
 
         @Override

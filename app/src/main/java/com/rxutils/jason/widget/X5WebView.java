@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
+import com.rxutils.jason.global.GlobalCode;
 import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
@@ -31,8 +32,6 @@ public class X5WebView extends WebView {
     public X5WebView(Context arg0, AttributeSet arg1) {
         super(arg0, arg1);
         this.setWebViewClient(client);
-        // this.setWebChromeClient(chromeClient);
-        // WebStorage webStorage = WebStorage.getInstance();
         initWebViewSettings();
         this.getView().setClickable(true);
     }
@@ -65,6 +64,7 @@ public class X5WebView extends WebView {
     @Override
     protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
         boolean ret = super.drawChild(canvas, child, drawingTime);
+        GlobalCode.printLog("draw>>>");
         canvas.save();
         Paint paint = new Paint();
         paint.setColor(0x7fff0000);
