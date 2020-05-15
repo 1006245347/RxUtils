@@ -10,7 +10,7 @@ import androidx.multidex.MultiDex;
 import com.rxutils.jason.BuildConfig;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
-import com.tencent.tinker.loader.app.DefaultApplicationLike;
+import com.tencent.tinker.entry.DefaultApplicationLike;
 
 /**
  * @author by jason-何伟杰，2020/5/9

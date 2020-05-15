@@ -15,12 +15,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import com.rxutils.jason.R;
+import com.rxutils.jason.common.UIhelper;
 import com.rxutils.jason.global.GlobalCode;
 
 /**
- * 支持App内部显示资源、支持JavaScript、支持显示进度条的WebView
  * Created by jason on 17/10/9.
- * https://www.jianshu.com/p/3e0136c9e748
+ * 支持App内部显示资源、支持JavaScript、支持显示进度条的WebView
  */
 
 public class TinyWebView extends WebView {
@@ -46,7 +47,7 @@ public class TinyWebView extends WebView {
         progressbar = new ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal);
         progressbar.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, dp2px(context, 3), 0, 0));
         //改变progressbar默认进度条的颜色（深红色）为Color.GREEN
-        progressbar.setProgressDrawable(new ClipDrawable(new ColorDrawable(Color.RED), Gravity.START, ClipDrawable.HORIZONTAL));
+        progressbar.setProgressDrawable(new ClipDrawable(new ColorDrawable(UIhelper.getColor(R.color.colorPrimary)), Gravity.START, ClipDrawable.HORIZONTAL));
         addView(progressbar);
     }
 

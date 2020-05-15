@@ -10,8 +10,6 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
-    <string name="test_change_language">my life is very ordinary</string>
-
     <string name="nourl">Invalid link</string>
     <string name="rplay">Replay</string>
     <string name="click_restart">Retry</string>
@@ -19,4 +17,22 @@
     <string name="_not_wifi_confirm">Continue</string>
     <string name="_not_wifi_cancel">Stop</string>
     <string name="_loading_failed">Loading failed</string>
+
+    <!--    测试数据 -->
+    <string name="str_app_test">App test</string>
+    <string name="test_change_language">That\'s right. This is the four-room department. Welcome home</string>
+    <string name="str_change_language">Change Language</string>
+    <string name="str_go_browser">Go Browser</string>
+    <string name="str_chinese">chinese</string>
+    <string name="str_english">english</string>
+    <string name="direct_player">Quick play</string>
+    <string name="copy_file">Copy file to dev</string>
+    <string name="hot_update">Hot patch</string>
+    <string name="custom_canvas">Custom Canvas</string>
+    <string name="dev_config">Device args</string>
+    <string name="system_set">System set</string>
+    <string name="close_set_down">Button down</string>
+    <string name="hide_progress_horizontal">Hide the horizontal progress bar</string>
+    <string name="use_native_web">Use native browser</string>
+    <string name="save">Save</string>
 </resources>

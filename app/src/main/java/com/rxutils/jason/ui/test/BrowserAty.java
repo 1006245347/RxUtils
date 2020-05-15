@@ -1,26 +1,30 @@
 package com.rxutils.jason.ui.test;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.ClipDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.view.WindowManager;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.rxutils.jason.R;
-import com.rxutils.jason.common.SetConfig;
+import com.rxutils.jason.common.UIhelper;
+import com.rxutils.jason.global.GlobalCode;
 import com.rxutils.jason.widget.X5WebView;
-import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
-import com.tencent.smtt.export.external.interfaces.JsResult;
+import com.tencent.smtt.export.external.interfaces.IX5WebSettings;
 import com.tencent.smtt.sdk.CookieSyncManager;
 import com.tencent.smtt.sdk.DownloadListener;
+import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.WebChromeClient;
-import com.tencent.smtt.sdk.WebHistoryItem;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
@@ -31,7 +35,7 @@ import java.util.ArrayList;
 public class BrowserAty extends AppCompatActivity {
 
     private X5WebView webView;
-
+    private ProgressBar progressBar;
 
     public static void launchBrowser(Context context, String url) {
         Intent intent = new Intent(context, BrowserAty.class);
@@ -47,6 +51,17 @@ public class BrowserAty extends AppCompatActivity {
     }
 
     private void init() {
+        getWindow().setFormat(PixelFormat.TRANSLUCENT);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        progressBar = findViewById(R.id.progressbar);
+        progressBar.setProgressDrawable(new ClipDrawable(new ColorDrawable(UIhelper.getColor(R.color.colorPrimary)), Gravity.START, ClipDrawable.HORIZONTAL));
+
+        findViewById(R.id.btn_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         this.webView = findViewById(R.id.webview);
         //该界面打开更多链接
         this.webView.setWebViewClient(new WebViewClient() {
@@ -61,11 +76,18 @@ public class BrowserAty extends AppCompatActivity {
             }
         });
 
-
         this.webView.setWebChromeClient(new WebChromeClient() {
             @Override
-            public void onProgressChanged(WebView webView, int i) {
-                super.onProgressChanged(webView, i); //监听网页的加载速度
+            public void onProgressChanged(WebView webView, int newProgress) {
+                if (newProgress == 100) {
+                    progressBar.setVisibility(View.GONE);
+                } else {
+                    if (progressBar.getVisibility() == View.GONE) {
+                        progressBar.setVisibility(View.VISIBLE);
+                    }
+                    progressBar.setProgress(newProgress);
+                }
+                super.onProgressChanged(webView, newProgress); //监听网页的加载速度
             }
         });
 
@@ -98,13 +120,13 @@ public class BrowserAty extends AppCompatActivity {
         WebSettings webSetting = webView.getSettings();
         webSetting.setAllowFileAccess(true);
         webSetting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
-        webSetting.setSupportZoom(true);    //支持缩放
-        webSetting.setBuiltInZoomControls(true);//设置内置的缩放控件，false不可缩放
+//        webSetting.setSupportZoom(true);    //支持缩放
+//        webSetting.setBuiltInZoomControls(true);//设置内置的缩放控件，false不可缩放
         webSetting.setUseWideViewPort(true);    //
         webSetting.setSupportMultipleWindows(false);
         // webSetting.setLoadWithOverviewMode(true);
         webSetting.setAppCacheEnabled(true);
-        // webSetting.setDatabaseEnabled(true);
+        webSetting.setDatabaseEnabled(true);
         webSetting.setDomStorageEnabled(true);
         webSetting.setJavaScriptEnabled(true);
         webSetting.setGeolocationEnabled(true);
@@ -113,12 +135,17 @@ public class BrowserAty extends AppCompatActivity {
         webSetting.setDatabasePath(this.getDir("databases", 0).getPath());
         webSetting.setGeolocationDatabasePath(this.getDir("geolocation", 0)
                 .getPath());
-        // webSetting.setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);
-        // webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH);
+//         webSetting.setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);
+//         webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH);
         // webSetting.setPreFectch(true);
         long time = System.currentTimeMillis();
-//        webView.loadUrl(SetConfig.URL_TEST2);
-        webView.loadUrl(getIntent().getStringExtra("url"));
+        String debugUrl = "http://debugtbs.qq.com";
+        if (QbSdk.canLoadX5(this)&&QbSdk.isTbsCoreInited()) {
+            webView.loadUrl(getIntent().getStringExtra("url"));
+        } else {
+            webView.loadUrl(debugUrl);
+        }
+        GlobalCode.printLog("x5suc>"+webView.getX5WebViewExtension());
         TbsLog.d("time-cost", "cost time: "
                 + (System.currentTimeMillis() - time));
         CookieSyncManager.createInstance(this);

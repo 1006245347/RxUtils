@@ -3,7 +3,6 @@ package com.rxutils.jason.ui.videoview;
 /**
  * Put JZVideoPlayer into layout
  * From a JZVideoPlayer to another JZVideoPlayer
- * Created by Nathen on 16/7/26.
  */
 public class JzvdMgr {
 

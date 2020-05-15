@@ -27,9 +27,10 @@ dependencies {
     api 'com.github.bumptech.glide:glide:3.7.0'
     //崩溃上报-更新
     implementation(name: 'bugly_crashreport_upgrade-1.4.2', ext: 'aar')
-    implementation "com.android.support:multidex:1.0.1" // 多dex配置
+    implementation "com.android.support:multidex:1.0.2" // 多dex配置
     // 指定tinker依赖版本（注：应用升级1.3.5版本起，不再内置tinker）
-    implementation 'com.tencent.tinker:tinker-android-lib:1.9.6'
+    implementation 'com.tencent.tinker:tinker-android-lib:1.9.9'
+
     //mtqq推送
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.1'
@@ -47,24 +48,42 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.2"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi", "x86" //"armeabi-v7a",
         }
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    // 签名设置
+    signingConfigs {
+        myConfig {
+            storeFile file("gree_pad_app.jks")
+            storePassword "123456"
+            keyAlias "gree"
+            keyPassword "123456"
+        }
 
-    //指定打包后应用名称
+    }
+    /*//指定打包后应用名称
     android.applicationVariants.all { variant ->
         variant.outputs.all {
             outputFileName = "GREE_PAD_${buildType.name}_${defaultConfig.versionName}.apk"
         }
-    }
+    }*/
     buildTypes {
         release {
+            minifyEnabled true //是否开启混淆
+            debuggable false    //是否开启日志输出
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro','proguard.cfg'
+            signingConfig signingConfigs.myConfig
+            buildConfigField "boolean", "IS_DEBUG", "false" //是否是debug模式
+        }
+        debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable true
+            signingConfig signingConfigs.myConfig
+            buildConfigField "boolean", "IS_DEBUG", "true"
         }
     }
     sourceSets {

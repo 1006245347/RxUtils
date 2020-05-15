@@ -15,10 +15,9 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 定位权限，Android 10 新增后台定位权限 -->
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
-    <!-- 硬件加速对X5视频播放非常重要，建议开启 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 硬件加速对X5视频播放非常重要，建议开启 -->
     <uses-permission android:name="android.permission.GET_TASKS" />
+
     <application
         android:name=".common.RxApp"
         android:allowBackup="true"
@@ -28,20 +27,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service android:name=".ui.server.MQTTService" />
-        <service android:name="org.eclipse.paho.android.service.MqttService" />
-        <!--该页面成为launcher默认主界面，系统启动器-->
+        <service android:name="org.eclipse.paho.android.service.MqttService" /> <!-- 该页面成为launcher默认主界面，系统启动器 -->
         <activity
             android:name=".ui.launcher.LauncherAty"
-            android:screenOrientation="landscape"
-            android:windowSoftInputMode="stateHidden|adjustResize">
-            <intent-filter>
+            android:screenOrientation="landscape">
+           <!-- <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.MONKEY" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
+        <activity
+            android:name=".ui.launcher.LauncherAty2"
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name="com.tencent.smtt.sdk.VideoActivity"
             android:alwaysRetainTaskState="true"
@@ -51,6 +51,7 @@
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="com.tencent.smtt.tbs.video.PLAY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -85,7 +86,7 @@
         </activity>
         <activity
             android:name=".ui.launcher.WebHtmlAty"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

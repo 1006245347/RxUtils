@@ -16,8 +16,8 @@ import java.util.Formatter;
 import java.util.Locale;
 
 /**
- * Created by Nathen
- * On 2016/02/21 12:25
+ * @author by jason-何伟杰，2020/5/12
+ * des:
  */
 public class JZUtils {
     public static final String TAG = "JZVD";

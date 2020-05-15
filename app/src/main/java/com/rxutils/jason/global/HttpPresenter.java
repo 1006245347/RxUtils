@@ -6,7 +6,9 @@ import com.rxutils.jason.http.ApiEngine;
 import com.rxutils.jason.http.RxSchedulers;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -105,6 +107,42 @@ public class HttpPresenter<T extends BaseView> extends BasePresenterImpl<T> impl
     //外部手动调用  参数是自定义实体
     public void doRequestByObj(Object ojb) {
 
+    }
+
+    //事件流延迟处理
+    public void delayFun(long mills, final Runnable runnable) {
+        Observable.timer(mills, TimeUnit.MILLISECONDS)
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                      addDispoable(disposable);   //在Activity销毁后也会被终止
+                    }
+                })
+                .compose(RxSchedulers.<Long>io2main())
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        runnable.run();
+                    }
+                });
+    }
+
+    //周期性事件延迟处理
+    public void intervalFun(long mills, final Runnable runnable) {
+        Observable.interval(mills, TimeUnit.MILLISECONDS)
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                       addDispoable(disposable);
+                    }
+                })
+                .compose(RxSchedulers.<Long>io2main())
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        runnable.run();
+                    }
+                });
     }
 
     public void showLoading() {

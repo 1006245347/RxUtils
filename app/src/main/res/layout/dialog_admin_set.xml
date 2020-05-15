@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_main"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/view_space_30"
+    android:background="@drawable/bg_white_corner"
+    android:minWidth="50dp"
+    android:minHeight="50dp"
+    android:padding="@dimen/view_space_12">
+
+    <TextView
+        android:id="@+id/tv_admin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/system_set"
+        android:textColor="@color/cBlack_txt"
+        android:textSize="@dimen/font_22" />
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_admin"
+        android:text="Date"
+        android:textColor="@color/cGrey_txt"
+        android:textSize="@dimen/font_18" />
+
+    <TextView
+        android:id="@+id/tv_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_admin"
+        android:layout_alignRight="@+id/tv_date"
+        android:text="@string/save"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/font_20" />
+
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_date"
+        android:text="version"
+        android:textColor="@color/cBlack_txt"
+        android:textSize="@dimen/font_18" />
+
+    <TextView
+        android:id="@+id/tv_mac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_version"
+        android:text="mac"
+        android:textColor="@color/cBlack_txt"
+        android:textSize="@dimen/font_18" />
+
+    <TextView
+        android:id="@+id/tv_sdkversion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_mac"
+        android:text="android 7.0"
+        android:textColor="@color/cBlack_txt"
+        android:textSize="@dimen/font_18" />
+
+    <CheckBox
+        android:id="@+id/cb_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_sdkversion"
+        android:text="@string/close_set_down"
+        android:textSize="@dimen/font_18" />
+
+    <CheckBox
+        android:id="@+id/cb_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cb_close"
+        android:text="@string/hide_progress_horizontal"
+        android:textSize="@dimen/font_18" />
+
+    <CheckBox
+        android:id="@+id/cb_web"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cb_progress"
+        android:text="@string/use_native_web"
+        android:textSize="@dimen/font_18" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cb_web" />
+</RelativeLayout>

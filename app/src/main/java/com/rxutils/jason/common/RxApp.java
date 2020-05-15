@@ -25,6 +25,7 @@ import com.tencent.bugly.beta.upgrade.UpgradeStateListener;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mmkv.MMKV;
 import com.tencent.smtt.sdk.QbSdk;
+import com.tencent.smtt.sdk.TbsListener;
 import com.tencent.smtt.sdk.WebView;
 
 import java.io.File;
@@ -76,8 +77,28 @@ public class RxApp extends Application {
                 GlobalCode.printLog(" onViewInitFinished is " + arg0);
             }
         };
+        QbSdk.setTbsListener(new TbsListener() {
+            @Override
+            public void onDownloadFinish(int i) {
+                GlobalCode.printLog("x5-downfinish=" + i);
+            }
+
+            @Override
+            public void onInstallFinish(int i) {
+                GlobalCode.printLog("x5-install=" + i);
+            }
+
+            @Override
+            public void onDownloadProgress(int i) {
+                GlobalCode.printLog("x5-download=" + i);
+            }
+        });
+
         //x5内核初始化接口
         QbSdk.initX5Environment(getApplicationContext(), cb);
+
+        GlobalCode.printLog("initx5=" + QbSdk.isTbsCoreInited()+" "+QbSdk.canLoadX5(this));
+
     }
 
     /**
@@ -230,7 +251,7 @@ public class RxApp extends Application {
                                         }
         );
         //统一初始化 调试时第三个参数=true
-        Bugly.init(getApplicationContext(), BUGLY_APPID, BuildConfig.DEBUG, strategy);
+        Bugly.init(getApplicationContext(), BUGLY_APPID, !BuildConfig.DEBUG, strategy);
     }
 
     private void initTinker() {
@@ -273,12 +294,15 @@ public class RxApp extends Application {
             }
         };
         // 设置开发设备，默认为false，上传补丁如果下发范围指定为“开发设备”，需要调用此接口来标识开发设备
-        Bugly.setIsDevelopmentDevice(getContext(),true);
+        Bugly.setIsDevelopmentDevice(getContext(), true);
+        Bugly.setUserId(this, "jason_GREE");
+        Bugly.setUserTag(this, 123456);
+        Bugly.putUserData(this, SetConfig.CODE_USER_TOKEN, "jason_token");
+        Bugly.setAppChannel(this, "bugly");
     }
 
     private void getAppUpdateInfo() {
     }
-
 
     /**
      * attachBaseContext（）中还没生成context,此方法不能调用
@@ -313,7 +337,6 @@ public class RxApp extends Application {
     }
 
     private void onLanguageChange() {
-//        AppLanguageUtils.changeAppLanguage(this, AppLanguageUtils.getSupportLanguage(getAppLanguage()));
         AppLanguageUtils.changeAppLanguage(this, AppLanguageUtils.getSupportLanguage(devLanguage));
     }
 

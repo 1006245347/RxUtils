@@ -10,7 +10,6 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
-    <string name="test_change_language">我的生活非常普通</string>
 
     <string name="nourl">播放地址无效</string>
     <string name="rplay">重播</string>
@@ -19,4 +18,22 @@
     <string name="_not_wifi_confirm">继续播放</string>
     <string name="_not_wifi_cancel">停止播放</string>
     <string name="_loading_failed">视频加载失败</string>
+
+    <!--    测试数据-->
+    <string name="str_app_test">程序测试用例</string>
+    <string name="test_change_language">没错，这就是四室的部门群~欢迎回家~</string>
+    <string name="str_change_language">语言切换</string>
+    <string name="str_go_browser">跳转浏览器</string>
+    <string name="str_chinese">中文</string>
+    <string name="str_english">英文</string>
+    <string name="direct_player">快速播放</string>
+    <string name="copy_file">拷贝文件到手机</string>
+    <string name="hot_update">热更新</string>
+    <string name="custom_canvas">自定义画布</string>
+    <string name="dev_config">硬件参数</string>
+    <string name="system_set">系统设定</string>
+    <string name="close_set_down">返回键置低</string>
+    <string name="hide_progress_horizontal">隐藏横向进度条</string>
+    <string name="use_native_web">启用原生浏览器</string>
+    <string name="save">保存</string>
 </resources>

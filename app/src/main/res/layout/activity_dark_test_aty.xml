@@ -11,46 +11,51 @@
         android:id="@+id/tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/view_space_10"
         android:text="@string/test_change_language"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/iv_pic"
+    <Button
+        android:id="@+id/btn_china"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_margin="@dimen/view_space_12"
-        android:background="@color/cGrey_bg"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_height="wrap_content"
+        android:text="@string/str_chinese"
         app:layout_constraintTop_toBottomOf="@+id/tv1" />
 
     <Button
-        android:id="@+id/btn_default"
+        android:id="@+id/btn_english"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="default"
-        app:layout_constraintTop_toBottomOf="@+id/iv_pic" />
+        android:text="@string/str_english"
+        app:layout_constraintTop_toBottomOf="@+id/btn_china" />
 
     <Button
-        android:id="@+id/btn_dark"
+        android:id="@+id/btn_mqtt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="dark"
-        app:layout_constraintTop_toBottomOf="@+id/btn_default" />
+        android:text="mqtt"
+        app:layout_constraintTop_toBottomOf="@+id/btn_english" />
 
     <Button
-        android:id="@+id/btn_light"
+        android:id="@+id/btn_play"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="light"
-        app:layout_constraintTop_toBottomOf="@+id/btn_dark" />
+        android:text="@string/direct_player"
+        app:layout_constraintTop_toBottomOf="@+id/btn_mqtt" />
+
+    <Button
+        android:id="@+id/btn_file"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/copy_file"
+        app:layout_constraintTop_toBottomOf="@id/btn_play" />
 
     <Button
         android:id="@+id/btn_system"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="system"
-        app:layout_constraintTop_toBottomOf="@+id/btn_light" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_file" />
 </androidx.constraintlayout.widget.ConstraintLayout>

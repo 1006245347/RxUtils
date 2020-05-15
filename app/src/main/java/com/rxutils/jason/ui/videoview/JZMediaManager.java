@@ -10,8 +10,8 @@ import android.view.Surface;
 import android.view.TextureView;
 
 /**
- * 这个类用来和jzvd互相调用，当jzvd需要调用Media的时候调用这个类，当MediaPlayer有回调的时候，通过这个类回调JZVD
- * Created by Nathen on 2017/11/18.
+ * @author by jason-何伟杰，2020/5/12
+ * des:这个类用来和jzvd互相调用，当jzvd需要调用Media的时候调用这个类，当MediaPlayer有回调的时候，通过这个类回调JZVD
  */
 public class JZMediaManager implements TextureView.SurfaceTextureListener {
 

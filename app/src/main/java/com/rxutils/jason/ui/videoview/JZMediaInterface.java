@@ -3,8 +3,8 @@ package com.rxutils.jason.ui.videoview;
 import android.view.Surface;
 
 /**
- * Created by Nathen on 2017/11/7.
- * 自定义播放器
+ * @author by jason-何伟杰，2020/5/12
+ * des:自定义播放器
  */
 public abstract class JZMediaInterface {
 

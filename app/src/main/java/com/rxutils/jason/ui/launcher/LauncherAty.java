@@ -16,13 +16,13 @@ public class LauncherAty extends BaseActivity<LauncherPresenter> implements Laun
         clickFun(R.id.btn1, new Runnable() {
             @Override
             public void run() {
-                WebHtmlAty.launchWebAty(getCurActivity(), SetConfig.URL_GERR_TEST1);
+                WebHtmlAty.launchWebAty(getCurActivity(), SetConfig.URL_GREE_TEST1);
             }
         });
         clickFun(R.id.btn2, new Runnable() {
             @Override
             public void run() {
-                WebHtmlAty.launchWebAty(getCurActivity(), SetConfig.URL_GERR_TEST2);
+                WebHtmlAty.launchWebAty(getCurActivity(), SetConfig.URL_GREE_TEST2);
             }
         });
         delayFun(100, new Runnable() {
@@ -31,7 +31,7 @@ public class LauncherAty extends BaseActivity<LauncherPresenter> implements Laun
                 mPresenter.playVideo();
             }
         });
-
+        GlobalCode.printLog("LauncherAty_onCreate");
     }
 
     @Override
@@ -75,7 +75,6 @@ public class LauncherAty extends BaseActivity<LauncherPresenter> implements Laun
     protected int getLayoutId() {
         return R.layout.activity_launcher_aty;
     }
-
 
     @Override
     public LinearLayout $line_bottom() {

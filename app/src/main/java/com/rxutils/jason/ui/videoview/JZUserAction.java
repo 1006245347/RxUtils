@@ -1,9 +1,5 @@
 package com.rxutils.jason.ui.videoview;
 
-/**
- * Created by Nathen
- * On 2016/04/04 22:13
- */
 public interface JZUserAction {
 
     int ON_CLICK_START_ICON = 0;

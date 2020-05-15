@@ -7,8 +7,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.rxutils.jason.R;
 
 /**
@@ -122,7 +124,8 @@ public class GlideUtils {
     }
 
     public static void loadImageViewDynamicGif(Context context, int resId, ImageView imageView) {
-        Glide.with(context).load(resId).asGif().into(imageView);
+        Glide.with(context).load(resId).asGif().diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .into(imageView);
     }
 
     //设置监听的用处 可以用于监控请求发生错误来源，以及图片来源 是内存还是磁盘

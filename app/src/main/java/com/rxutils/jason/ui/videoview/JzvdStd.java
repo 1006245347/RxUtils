@@ -33,8 +33,8 @@ import java.util.TimerTask;
 
 
 /**
- * Created by Nathen
- * On 2016/04/18 16:15
+ * @author by jason-何伟杰，2020/5/12
+ * des:播放引擎
  */
 public class JzvdStd extends Jzvd {
 

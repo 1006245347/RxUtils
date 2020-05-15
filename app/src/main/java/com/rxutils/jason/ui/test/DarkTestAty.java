@@ -2,9 +2,7 @@ package com.rxutils.jason.ui.test;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.MessageQueue;
 import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,7 +10,6 @@ import android.view.View;
 import com.rxutils.jason.R;
 import com.rxutils.jason.base.BaseActivity;
 import com.rxutils.jason.base.BasePresenter;
-import com.rxutils.jason.common.RxApp;
 import com.rxutils.jason.common.SetConfig;
 import com.rxutils.jason.common.UIhelper;
 import com.rxutils.jason.global.GlobalCode;
@@ -21,27 +18,27 @@ import com.rxutils.jason.ui.server.IGetMessageCallBack;
 import com.rxutils.jason.ui.server.MQTTService;
 import com.rxutils.jason.ui.server.MyServiceConnection;
 import com.rxutils.jason.utils.ToastUtil;
+import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsVideo;
-import com.tencent.smtt.sdk.TbsVideoUtils;
 
 import java.io.DataOutputStream;
 import java.io.OutputStream;
 
+import static com.rxutils.jason.common.AppLanguageUtils.getLocaleByLanguage;
 import static com.rxutils.jason.common.AppLanguageUtils.onChangeAppLanguage;
 
 public class DarkTestAty extends BaseActivity implements View.OnClickListener, IGetMessageCallBack {
-
-
     private MyServiceConnection serviceConnection;
     private MQTTService mqttService;
 
     @Override
     protected void initAty() {
-        findViewById(R.id.btn_default).setOnClickListener(this);
-        findViewById(R.id.btn_dark).setOnClickListener(this);
-        findViewById(R.id.btn_light).setOnClickListener(this);
+        findViewById(R.id.btn_china).setOnClickListener(this);
+        findViewById(R.id.btn_english).setOnClickListener(this);
+        findViewById(R.id.btn_mqtt).setOnClickListener(this);
+        findViewById(R.id.btn_play).setOnClickListener(this);
+        findViewById(R.id.btn_file).setOnClickListener(this);
         findViewById(R.id.btn_system).setOnClickListener(this);
-//        initMTQQ();
     }
 
     private void initMTQQ() {
@@ -60,43 +57,51 @@ public class DarkTestAty extends BaseActivity implements View.OnClickListener, I
 
     @Override
     protected void onDestroy() {
-//        unbindService(serviceConnection);
+        if (null != serviceConnection) {
+            unbindService(serviceConnection);
+        }
         super.onDestroy();
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_default) {
+        if (v.getId() == R.id.btn_china) {
             onChangeAppLanguage(this, SetConfig.CODE_LANGUAGE_CHINESE);
-        } else if (v.getId() == R.id.btn_light) {
-//            GlobalCode.copyAssets2Dev("Whale Launcher.apk", ((RxApp)RxApp.getContext()).getDownLoadDir().getAbsolutePath()+"/launcher.apk");
-//            MQTTService.publish("jason publish sth ,do you see it?");
-            x5Play();
-        } else if (v.getId() == R.id.btn_dark) {
+            setResult(SetConfig.CODE_COMMON_BACK);
+            recreate();
+            finish();
+        } else if (v.getId() == R.id.btn_english) {
+//
             onChangeAppLanguage(this, SetConfig.CODE_LANGUAGE_ENGLISH);
+            setResult(SetConfig.CODE_COMMON_BACK);
+            recreate();
+            finish();
+        } else if (v.getId() == R.id.btn_play) {
+            x5Play();
+        } else if (v.getId() == R.id.btn_mqtt) {
+          /*  initMTQQ();
+            delayFun(1000, new Runnable() {
+                @Override
+                public void run() {
+                    MQTTService.publish("jason publish sth ,do you see it?");
+                }
+            });*/
+        } else if (v.getId() == R.id.btn_file) {
+//            GlobalCode.copyAssets2Dev("Whale Launcher.apk", ((RxApp) RxApp.getContext()).getDownLoadDir().getAbsolutePath() + "/launcher.apk");
         } else if (v.getId() == R.id.btn_system) {
             UIhelper.switch2Aty(getCurActivity(), LauncherAty.class);
         }
-//        setResult(SetConfig.CODE_COMMON_BACK);
-//        recreate();
-//        finish();
     }
 
     private void x5Play() {
         if (TbsVideo.canUseTbsPlayer(this)) {
             Bundle bundle = new Bundle();
-            bundle.putInt("screenMode",102);
-            TbsVideo.openVideo(this,"https://youku.com-l-youku.com/20190207/20335_d1f19bfb/index.m3u8",bundle);
+            bundle.putInt("screenMode", 102);
+            TbsVideo.openVideo(this, SetConfig.URL_VIDEO2, bundle);
+        } else {
+            GlobalCode.printLog("err-play:" + QbSdk.canLoadVideo(this));
         }
     }
-
- /*   public void onChangeAppLanguage(String newLanguage) {
-        MMKVUtil.addStr(SetConfig.CODE_LANGUAGE_SET, newLanguage);
-        AppLanguageUtils.changeAppLanguage(this, newLanguage);
-        AppLanguageUtils.changeAppLanguage(RxApp.getContext(), newLanguage);
-        this.recreate();    //Activity重启
-    }*/
-
 
     /**
      * 模拟用户点击

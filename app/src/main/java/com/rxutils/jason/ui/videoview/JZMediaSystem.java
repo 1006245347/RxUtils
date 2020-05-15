@@ -12,8 +12,8 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 /**
- * Created by Nathen on 2017/11/8.
- * 实现系统的播放引擎
+ * @author by jason-何伟杰，2020/5/12
+ * des:实现系统的播放引擎
  */
 public class JZMediaSystem extends JZMediaInterface implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnSeekCompleteListener, MediaPlayer.OnErrorListener, MediaPlayer.OnInfoListener, MediaPlayer.OnVideoSizeChangedListener {
 

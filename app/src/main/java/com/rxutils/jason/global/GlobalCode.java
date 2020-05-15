@@ -16,6 +16,7 @@ import android.util.Log;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.rxutils.jason.common.RxApp;
+import com.rxutils.jason.common.UIhelper;
 import com.rxutils.jason.http.ApiEngine;
 import com.rxutils.jason.http.FileUploadObserver;
 import com.rxutils.jason.utils.ActivityStackUtil;
@@ -291,7 +292,7 @@ public class GlobalCode {
             float gbsize = size / 1024f / 1024f / 1024f;
             return formater.format(gbsize) + "GB";
         } else {
-            return "size: error";
+            return "size-error";
         }
     }
 
@@ -355,7 +356,7 @@ public class GlobalCode {
     public static void copyAssets2Dev(String filePath, String devPath) {
         try {
             String fileNames[] = RxApp.getContext().getAssets().list(filePath);
-            GlobalCode.printLog("assets-"+fileNames.length);
+            GlobalCode.printLog("assets-" + fileNames.length);
             if (fileNames.length > 0) {
                 File file = new File(devPath);
                 if (!file.exists()) {
@@ -375,7 +376,7 @@ public class GlobalCode {
                 byte[] buffer = new byte[1024];
                 int byteCount;
                 while ((byteCount = is.read(buffer)) != -1) {
-                    fos.write(buffer,0,byteCount);
+                    fos.write(buffer, 0, byteCount);
                 }
                 fos.flush();
                 is.close();
@@ -383,8 +384,8 @@ public class GlobalCode {
             }
         } catch (Exception e) {
             GlobalCode.printLog(e);
-        }finally {
-            ToastUtil.showToast("assets-finsh");
+        } finally {
+            ToastUtil.showToast("assets-finish");
         }
     }
 }

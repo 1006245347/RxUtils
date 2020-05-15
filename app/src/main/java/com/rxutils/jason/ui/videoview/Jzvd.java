@@ -37,7 +37,8 @@ import java.util.TimerTask;
 
 
 /**
- * Created by Nathen on 16/7/30.
+ * @author by jason-何伟杰，2020/5/12
+ * des:
  */
 public abstract class Jzvd extends FrameLayout implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, View.OnTouchListener {
 
@@ -66,7 +67,8 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
     public static boolean ACTION_BAR_EXIST = true;
     public static boolean TOOL_BAR_EXIST = true;
     public static int FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
-    public static int NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+//    public static int NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+    public static int NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;    //全竖屏
     public static boolean SAVE_PROGRESS = true;
     public static boolean WIFI_TIP_DIALOG_SHOWED = false;
     public static int VIDEO_IMAGE_DISPLAY_TYPE = 0;
@@ -854,12 +856,12 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
         if (oldT != null) {
             vp.removeView(oldT);
         }
-        showSupportActionBar(getContext());
+//        showSupportActionBar(getContext());
     }
 
     public void clearFloatScreen() {
         JZUtils.setRequestedOrientation(getContext(), NORMAL_ORIENTATION);
-        showSupportActionBar(getContext());
+//        showSupportActionBar(getContext());
         ViewGroup vp = (JZUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
                 .findViewById(Window.ID_ANDROID_CONTENT);
         Jzvd fullJzvd = vp.findViewById(R.id.jz_fullscreen_id);
@@ -946,7 +948,7 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
                 return position;
             }
         }
-        Log.v("TAG", "CUR_POSITION=" + position);
+//        Log.v("TAG", "CUR_POSITION=" + position);
         return position;
     }
 
@@ -1139,7 +1141,8 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
             if (x > 0) {
                 JZUtils.setRequestedOrientation(getContext(), ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             } else {
-                JZUtils.setRequestedOrientation(getContext(), ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
+                JZUtils.setRequestedOrientation(getContext(), ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//                JZUtils.setRequestedOrientation(getContext(), ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
             }
             onEvent(JZUserAction.ON_ENTER_FULLSCREEN);
             startWindowFullscreen();
