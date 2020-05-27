@@ -1,6 +1,8 @@
 package com.rxutils.jason.ui.launcher;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.transition.TransitionManager;
 import android.view.Gravity;
@@ -16,6 +18,8 @@ import com.rxutils.jason.common.SetConfig;
 import com.rxutils.jason.common.UIhelper;
 import com.rxutils.jason.global.GlobalCode;
 import com.rxutils.jason.global.HttpPresenter;
+import com.rxutils.jason.ui.test.BrowserAty;
+import com.rxutils.jason.ui.test.BrowserAty2;
 import com.rxutils.jason.ui.videoview.JZDataSource;
 import com.rxutils.jason.ui.videoview.JzvdStd;
 import com.rxutils.jason.ui.videoview.MyJzvdStd;
@@ -24,11 +28,16 @@ import com.rxutils.jason.ui.workflow.Node;
 import com.rxutils.jason.ui.workflow.WorkFlow;
 import com.rxutils.jason.ui.workflow.WorkNode;
 import com.rxutils.jason.ui.workflow.Worker;
+import com.rxutils.jason.utils.ActivityStackUtil;
 import com.rxutils.jason.utils.GlideUtils;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
 
 public class LauncherPresenter2 extends HttpPresenter<LauncherContract2.ILauncherView> {
 
@@ -39,6 +48,8 @@ public class LauncherPresenter2 extends HttpPresenter<LauncherContract2.ILaunche
     private ConstraintSet applyConstranintSet = new ConstraintSet();
     private ConstraintSet resetConstranintSet = new ConstraintSet();
     private HashMap<Integer, ViewBean> viewMaps = new HashMap<>();
+    //    private List<BrowserBean> browserList = new ArrayList<>();
+    private Set browserSet = new HashSet<>();
     private MyJzvdStd jzvdStd;
 
     //工作流-节点执行顺序是有 array的值由小到大执行，不关代码顺序
@@ -61,7 +72,6 @@ public class LauncherPresenter2 extends HttpPresenter<LauncherContract2.ILaunche
         mWorkFlow.start();
     }
 
-
     private WorkNode getNodeInitApp() {
         return WorkNode.build(NODE_APP_INIT, new Worker() {
             @Override
@@ -80,6 +90,9 @@ public class LauncherPresenter2 extends HttpPresenter<LauncherContract2.ILaunche
                 onApplyLayout();
                 GlobalCode.printLog("views=" + viewMaps);
                 GlobalCode.printLog("cl_main=" + mView.$constraintLayout().getChildCount());
+
+//                browserList.clear();
+                browserSet.clear();
                 curNote.onCompleted();
             }
         });
@@ -93,16 +106,16 @@ public class LauncherPresenter2 extends HttpPresenter<LauncherContract2.ILaunche
         //确认控件的数量和属性、起始坐标，宽高px，margin,padding,
         //控件类型，index,value,gravity/font/color/background/click //动画延时布局
 
-        createVideoView(mView.getCurActivity(), new ViewBean(ViewBean.getViewType_VideoView(), 5, 0, 0, 1440, 720, 0, 0, 0, 0, 0, 0, 0, 0, Gravity.CENTER, 0, "url", ""));
-        createImageView(mView.getCurActivity(), new ViewBean(ViewBean.getViewType_Image(), 4, 1441, 100, 480, 400, 0, 0, 0, 0, 0, 0, 0, 0, Gravity.CENTER, 0, "url", SetConfig.URL_GREE_TEST2));
-        createButton(mView.getCurActivity(), new ViewBean(ViewBean.getViewType_Button(), 1, 0, 721, 480, 360, 0, 0, 0, 0, 0, 0, 0, 0, Gravity.CENTER,
-                "vr1", 20.0f, UIhelper.getColor(R.color.cBlack_txt), 0, "url", SetConfig.URL_GREE_TEST1));
-        createButton(mView.getCurActivity(), new ViewBean(ViewBean.getViewType_Button(), 2, 481, 721, 480, 360, 0, 0, 0, 0, 1, 1, 1, 1, Gravity.CENTER,
-                "vr2", 20.0f, UIhelper.getColor(R.color.cBlack_txt), 0, "url", SetConfig.URL_GREE_TEST3));
-        createButton(mView.getCurActivity(), new ViewBean(ViewBean.getViewType_Button(), 3, 961, 721, 480, 360, 0, 0, 0, 0, 1, 1, 1, 1, Gravity.CENTER,
-                "photo", 20.0f, UIhelper.getColor(R.color.cBlack_txt), 0, "url", SetConfig.URL_GREE_TEST4));
-        createButton(mView.getCurActivity(), new ViewBean(ViewBean.getViewType_Button(), 3, 1441, 721, 480, 360, 0, 0, 0, 0, 0, 0, 0, 0, Gravity.CENTER,
-                "photo", 20.0f, UIhelper.getColor(R.color.cBlack_txt), 0, "url", SetConfig.URL_GREE_TEST4));
+        createVideoView(mView.getCurActivity(), new ViewBean(ViewBean.getViewType_VideoView(), 1, 0, 0, 1440, 720, 0, 0, 0, 0, 0, 0, 0, 0, Gravity.CENTER, 0, "url", ""));
+        createImageView(mView.getCurActivity(), new ViewBean(ViewBean.getViewType_Image(), 2, 1441, 100, 480, 400, 0, 0, 0, 0, 0, 0, 0, 0, Gravity.CENTER, 0, "url", SetConfig.URL_GREE_MALL_PHOTO));
+        createButton(mView.getCurActivity(), new ViewBean(ViewBean.getViewType_Button(), 3, 0, 721, 480, 360, 0, 0, 0, 0, 0, 0, 0, 0, Gravity.CENTER,
+                "vr1", 20.0f, UIhelper.getColor(R.color.cBlack_txt), 0, "url", SetConfig.URL_GREE_VR_HOME));
+        createButton(mView.getCurActivity(), new ViewBean(ViewBean.getViewType_Button(), 4, 481, 721, 480, 360, 0, 0, 0, 0, 1, 1, 1, 1, Gravity.CENTER,
+                "vr2", 20.0f, UIhelper.getColor(R.color.cBlack_txt), 0, "url", SetConfig.URL_GREE_VR_PRODUCT));
+        createButton(mView.getCurActivity(), new ViewBean(ViewBean.getViewType_Button(), 5, 961, 721, 480, 360, 0, 0, 0, 0, 1, 1, 1, 1, Gravity.CENTER,
+                "photo", 20.0f, UIhelper.getColor(R.color.cBlack_txt), 0, "url", SetConfig.URL_GREE_MALL));
+        createButton(mView.getCurActivity(), new ViewBean(ViewBean.getViewType_Button(), 6, 1441, 721, 480, 360, 0, 0, 0, 0, 0, 0, 0, 0, Gravity.CENTER,
+                "photo", 20.0f, UIhelper.getColor(R.color.cBlack_txt), 0, "url", SetConfig.URL_GREE_GAME));
 
         TransitionManager.beginDelayedTransition(mView.$constraintLayout());
         applyConstranintSet.applyTo(mView.$constraintLayout());
@@ -139,7 +152,7 @@ public class LauncherPresenter2 extends HttpPresenter<LauncherContract2.ILaunche
         iv_set.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             UIhelper.showAdminDialog(mView.getCurActivity());
+                UIhelper.showAdminDialog(mView.getCurActivity());
             }
         });
         constraintSet2.constrainWidth(iv_set.getId(), 40);
@@ -184,7 +197,55 @@ public class LauncherPresenter2 extends HttpPresenter<LauncherContract2.ILaunche
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebHtmlAty.launchWebAty(mView.getCurActivity(), viewBean.getLink());
+               /* Iterator<BrowserBean> iterable = browserSet.iterator();
+                boolean isExsit = false;
+                while (iterable.hasNext()) {
+                    BrowserBean next = iterable.next();
+                    if (next.getLink().equals(viewBean.getLink())) {
+                        isExsit = true;
+                    }
+                }
+                Intent intent = new Intent(mView.getCurActivity(), BrowserAty.class);
+                if (isExsit) {
+                    Stack<Activity> atyStack = ActivityStackUtil.getScreenManager().getActivityStack();
+                    for (Activity activity : atyStack) {
+                        String webUrl = (activity).getIntent().getStringExtra("url");
+                        if (!TextUtils.isEmpty(webUrl) && webUrl.equals(viewBean.getLink())) {
+                            //打开对应的Activity实例
+                            GlobalCode.printLog("fit_aty=" + webUrl);
+                            GlobalCode.printLog("fit_action=" + activity.getIntent().getAction());
+                            GlobalCode.printLog("fit-category=" + activity.getIntent().getCategories());
+                        }
+                    }
+                    ActivityStackUtil.getScreenManager().getCurAty();
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    intent.setAction(viewBean.getLink());
+                    intent.addCategory("index" + viewBean.getIndex());
+                    intent.addCategory("android.intent.category.DEFAULT");
+                    intent.addCategory(viewBean.getLink());
+                    intent.putExtra("url", viewBean.getLink());
+                } else {
+                    BrowserBean bean = new BrowserBean();
+                    bean.setIndex(viewBean.getIndex());
+                    bean.setLink(viewBean.getLink());
+//                browserList.add(bean);
+                    browserSet.add(bean);
+                    intent.setAction(viewBean.getLink());
+                    GlobalCode.printLog("index=" + viewBean.getIndex());
+                    intent.addCategory("android.intent.category.DEFAULT");
+                    intent.addCategory("index" + viewBean.getIndex());
+                    intent.addCategory(viewBean.getLink());
+                    intent.putExtra("url", viewBean.getLink());
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                }
+
+                mView.getCurActivity().startActivity(intent);*/
+//                WebHtmlAty.launchWebAty(mView.getCurActivity(), viewBean.getLink());
+//                BrowserAty.launchBrowser(mView.getCurActivity(), viewBean.getLink());
+                GlobalCode.printLog(""+viewBean.getIndex()+" "+viewBean.getLink());
+                BrowserAty2.launcherBrowser(mView.getCurActivity(), viewBean.getIndex(), viewBean.getLink());
             }
         });
         applyConstranintSet.constrainWidth(button.getId(), (int) viewBean.getWidth());
@@ -237,7 +298,8 @@ public class LauncherPresenter2 extends HttpPresenter<LauncherContract2.ILaunche
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebHtmlAty.launchWebAty(mView.getCurActivity(), viewBean.getLink());
+//                WebHtmlAty.launchWebAty(mView.getCurActivity(), viewBean.getLink());
+                BrowserAty.launchBrowser(mView.getCurActivity(), viewBean.getLink());
             }
         });
 //        applyConstranintSet.setMargin(textView.getId(), ConstraintSet.START, (int) viewBean.getStartX());
@@ -264,7 +326,8 @@ public class LauncherPresenter2 extends HttpPresenter<LauncherContract2.ILaunche
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebHtmlAty.launchWebAty(mView.getCurActivity(), viewBean.getLink());
+//                WebHtmlAty.launchWebAty(mView.getCurActivity(), viewBean.getLink());
+                BrowserAty.launchBrowser(mView.getCurActivity(), viewBean.getLink());
             }
         });
         applyConstranintSet.constrainWidth(imageView.getId(), (int) viewBean.getWidth());

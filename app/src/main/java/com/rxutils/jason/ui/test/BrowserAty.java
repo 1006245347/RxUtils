@@ -3,11 +3,14 @@ package com.rxutils.jason.ui.test;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
@@ -16,14 +19,17 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.rxutils.jason.MainActivity;
 import com.rxutils.jason.R;
+import com.rxutils.jason.common.SetConfig;
 import com.rxutils.jason.common.UIhelper;
 import com.rxutils.jason.global.GlobalCode;
+import com.rxutils.jason.utils.ActivityStackUtil;
 import com.rxutils.jason.widget.X5WebView;
-import com.tencent.smtt.export.external.interfaces.IX5WebSettings;
 import com.tencent.smtt.sdk.CookieSyncManager;
 import com.tencent.smtt.sdk.DownloadListener;
 import com.tencent.smtt.sdk.QbSdk;
+import com.tencent.smtt.sdk.WebBackForwardList;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
@@ -36,10 +42,20 @@ public class BrowserAty extends AppCompatActivity {
 
     private X5WebView webView;
     private ProgressBar progressBar;
+    String webUrl;
 
     public static void launchBrowser(Context context, String url) {
+//        Intent intent = new Intent(context, BrowserAty.class);
+//        intent.putExtra("url", url);
+//        context.startActivity(intent);
+        launchBrowser2(context, url);
+    }
+
+    public static void launchBrowser2(Context context, String url) {
         Intent intent = new Intent(context, BrowserAty.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("url", url);
+
         context.startActivity(intent);
     }
 
@@ -51,6 +67,8 @@ public class BrowserAty extends AppCompatActivity {
     }
 
     private void init() {
+        ActivityStackUtil.getScreenManager().pushActivity(this);
+        webUrl = getIntent().getStringExtra("url");
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         progressBar = findViewById(R.id.progressbar);
@@ -59,7 +77,30 @@ public class BrowserAty extends AppCompatActivity {
         findViewById(R.id.btn_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+//                finish();
+//                while (webView.canGoBack()) {
+//                    webView.goBack();
+//                }
+                if (webUrl.equals(SetConfig.URL_GREE_VR_HOME)) {
+                    webView.loadUrl(WebJsUtils.createJSHomeVr_closeSide());
+                    webView.loadUrl(WebJsUtils.createJSHomeVr_closeProduct());
+                } else if (webUrl.equals(SetConfig.URL_GREE_VR_PRODUCT)) {
+                    webView.loadUrl(WebJsUtils.createJSGree_closeAward());
+                    webView.loadUrl(WebJsUtils.creatJSGree_closeAir());
+//                    webView.loadUrl(WebJsUtils.createJSGreeVr());
+                    webView.loadUrl(WebJsUtils.randomJSGreeSence());
+//                    webView.loadUrl(WebJsUtils.alert());
+                } else if (webUrl.equals(SetConfig.URL_GREE_MALL_PHOTO)) {
+                    webView.loadUrl(WebJsUtils.createJSphoto());
+
+                } else if (webUrl.equals(SetConfig.URL_GREE_GAME)) {
+
+                } else if (webUrl.equals(SetConfig.URL_GREE_MALL)) {
+
+                }
+                Intent intent = new Intent(BrowserAty.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
             }
         });
         this.webView = findViewById(R.id.webview);
@@ -67,12 +108,22 @@ public class BrowserAty extends AppCompatActivity {
         this.webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView webView, String s) {
+                //重定向链接
+                GlobalCode.printLog("direct>>" + s);
+                GlobalCode.printLog("dir-" + super.shouldOverrideUrlLoading(webView, s));
                 return super.shouldOverrideUrlLoading(webView, s);
             }
 
             @Override
             public void onPageFinished(WebView webView, String s) {
                 super.onPageFinished(webView, s);
+                GlobalCode.printLog("web_finish=" + s);
+            }
+
+            @Override
+            public void onPageStarted(WebView webView, String s, Bitmap bitmap) {
+                super.onPageStarted(webView, s, bitmap);
+                GlobalCode.printLog("web_start=" + s);
             }
         });
 
@@ -140,12 +191,13 @@ public class BrowserAty extends AppCompatActivity {
         // webSetting.setPreFectch(true);
         long time = System.currentTimeMillis();
         String debugUrl = "http://debugtbs.qq.com";
-        if (QbSdk.canLoadX5(this)&&QbSdk.isTbsCoreInited()) {
+        GlobalCode.printLog("load_url-" + getIntent().getStringExtra("url"));
+        if (QbSdk.canLoadX5(this) && QbSdk.isTbsCoreInited()) {
             webView.loadUrl(getIntent().getStringExtra("url"));
         } else {
             webView.loadUrl(debugUrl);
         }
-        GlobalCode.printLog("x5suc>"+webView.getX5WebViewExtension());
+        GlobalCode.printLog("x5suc>" + webView.getX5WebViewExtension());
         TbsLog.d("time-cost", "cost time: "
                 + (System.currentTimeMillis() - time));
         CookieSyncManager.createInstance(this);
@@ -163,12 +215,56 @@ public class BrowserAty extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            direct2Home();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void direct2Home() {
+        if (null != webView && webView.canGoBack()) {
+            WebBackForwardList webBackForwardList = webView.copyBackForwardList();
+            if (webBackForwardList.getCurrentIndex() > 0) {
+                String historyUrl = webBackForwardList.getItemAtIndex(webBackForwardList.getCurrentIndex() - 1).getUrl();
+                GlobalCode.printLog("history=" + historyUrl);
+                if (!historyUrl.equals("url")) {
+                    webView.goBack();
+                }
+            }
+        }
+    }
+
+    private boolean back() {
+        if (null != webView && webView.canGoBack()) {
+            WebBackForwardList webBackForwardList = webView.copyBackForwardList();
+            GlobalCode.printLog("web=" + webBackForwardList.getCurrentIndex() + " \n" +
+                    webBackForwardList.getCurrentItem().getUrl());
+            if (webBackForwardList.getCurrentIndex() == 4) {
+                webView.loadUrl(webBackForwardList.getItemAtIndex(0).getUrl());
+                return true;
+            }
+            webView.goBack();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        back();
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        GlobalCode.printLog("aty_onResume>>" + this);
+//        GlobalCode.printLog("stack>>"+ActivityStackUtil.getScreenManager().getCurAty());
         webView.onResume();
         webView.getSettings().setJavaScriptEnabled(true);
     }
@@ -186,6 +282,7 @@ public class BrowserAty extends AppCompatActivity {
         if (webView != null) {
             webView.destroy();
         }
+        ActivityStackUtil.getScreenManager().popActivity(this);
         super.onDestroy();
     }
 }

@@ -3,6 +3,8 @@ package com.rxutils.jason.utils;
 import android.app.Activity;
 import android.util.Log;
 
+import com.rxutils.jason.global.GlobalCode;
+
 import java.util.Stack;
 
 /**
@@ -31,6 +33,7 @@ public class ActivityStackUtil {
 
     //获取当前显示的activity，注意窗口跳转时要销毁activity，保证index正确
     public Activity getCurAty() {
+        GlobalCode.printLog("aty_"+mActivityStack);
         if (!mActivityStack.isEmpty()) {
             return mActivityStack.get(mActivityStack.size() - 1);
         }
@@ -64,5 +67,9 @@ public class ActivityStackUtil {
         while (!mActivityStack.isEmpty()) {
 //            GlobalCode.printLog("aty=" + mActivityStack.pop().toString());
         }
+    }
+
+    public Stack<Activity> getActivityStack() {
+        return mActivityStack;
     }
 }

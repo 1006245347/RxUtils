@@ -10,6 +10,7 @@ import android.view.View;
 import com.rxutils.jason.R;
 import com.rxutils.jason.base.BaseActivity;
 import com.rxutils.jason.base.BasePresenter;
+import com.rxutils.jason.common.RxApp;
 import com.rxutils.jason.common.SetConfig;
 import com.rxutils.jason.common.UIhelper;
 import com.rxutils.jason.global.GlobalCode;
@@ -87,7 +88,7 @@ public class DarkTestAty extends BaseActivity implements View.OnClickListener, I
                 }
             });*/
         } else if (v.getId() == R.id.btn_file) {
-//            GlobalCode.copyAssets2Dev("Whale Launcher.apk", ((RxApp) RxApp.getContext()).getDownLoadDir().getAbsolutePath() + "/launcher.apk");
+            GlobalCode.copyAssets2Dev("app-release.apk", ((RxApp) RxApp.getContext()).getDownLoadDir().getAbsolutePath() + "/launcher.apk");
         } else if (v.getId() == R.id.btn_system) {
             UIhelper.switch2Aty(getCurActivity(), LauncherAty.class);
         }

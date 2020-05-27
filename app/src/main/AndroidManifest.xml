@@ -26,22 +26,27 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.test.BrowserAty2"></activity>
+
         <service android:name=".ui.server.MQTTService" />
         <service android:name="org.eclipse.paho.android.service.MqttService" /> <!-- 该页面成为launcher默认主界面，系统启动器 -->
         <activity
             android:name=".ui.launcher.LauncherAty"
             android:screenOrientation="landscape">
-           <!-- <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.HOME" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.MONKEY" />
-            </intent-filter>-->
+            <!--
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+
+                 <category android:name="android.intent.category.HOME" />
+                 <category android:name="android.intent.category.DEFAULT" />
+                 <category android:name="android.intent.category.MONKEY" />
+             </intent-filter>
+            -->
         </activity>
         <activity
             android:name=".ui.launcher.LauncherAty2"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name="com.tencent.smtt.sdk.VideoActivity"
             android:alwaysRetainTaskState="true"
@@ -70,8 +75,9 @@
 
         <activity
             android:name=".ui.test.BrowserAty"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+             />
         <activity
             android:name=".ui.test.DarkTestAty"
             android:screenOrientation="landscape" />

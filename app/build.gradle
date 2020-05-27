@@ -48,7 +48,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0.2"
+        versionName "1.0.5"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi", "x86" //"armeabi-v7a",
@@ -75,7 +75,7 @@ android {
         release {
             minifyEnabled true //是否开启混淆
             debuggable false    //是否开启日志输出
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro','proguard.cfg'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'proguard.cfg'
             signingConfig signingConfigs.myConfig
             buildConfigField "boolean", "IS_DEBUG", "false" //是否是debug模式
         }

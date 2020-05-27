@@ -4,10 +4,14 @@ def bakPath = file("${buildDir}/bakApk/")
 
 /**
  * 此处填写每次构建生成的基准包目录,就是第一次运行到手机中
+ * 第一次可以为空
  */
-def baseApkDir = "app-0512-17-30-24"
+def baseApkDir = "app-0527-17-20-49"
 
-//def appName="app-0113-10-45-57"
+// 用于生成基准包,为当前apk的版本号，生成补丁包时此内容要隐藏
+//def myTinkerId = "base-1.0.5" // 用于生成基准包（不用修改）
+// 用于生成补丁包（每次生成补丁包都要修改一次，当前版本号后代补丁包的递增序列号），生成基准包补丁包要隐藏
+def myTinkerId = "patch-1.0.5.0.3"
 
 /**
  * 对于插件各参数的详细解析请参考
@@ -36,10 +40,10 @@ tinkerSupport {
     baseApkResourceMapping = "${bakPath}/${baseApkDir}/app-release-R.txt"
 
     // 构建基准包和补丁包都要指定不同的tinkerId，并且必须保证唯一性
-    tinkerId = "patch-2.0.1"
+    tinkerId = "${myTinkerId}"
 
     // 构建多渠道补丁时使用
-    // buildAllFlavorsDir = "${bakPath}/${baseApkDir}"
+  //  // buildAllFlavorsDir = "${bakPath}/${baseApkDir}"
 
     // 是否启用加固模式，默认为false.(tinker-spport 1.0.7起支持）我们这里用乐固
 //     isProtectedApp = true

@@ -16,13 +16,13 @@ public class LauncherAty extends BaseActivity<LauncherPresenter> implements Laun
         clickFun(R.id.btn1, new Runnable() {
             @Override
             public void run() {
-                WebHtmlAty.launchWebAty(getCurActivity(), SetConfig.URL_GREE_TEST1);
+                WebHtmlAty.launchWebAty(getCurActivity(), SetConfig.URL_GREE_VR_HOME);
             }
         });
         clickFun(R.id.btn2, new Runnable() {
             @Override
             public void run() {
-                WebHtmlAty.launchWebAty(getCurActivity(), SetConfig.URL_GREE_TEST2);
+                WebHtmlAty.launchWebAty(getCurActivity(), SetConfig.URL_GREE_MALL_PHOTO);
             }
         });
         delayFun(100, new Runnable() {

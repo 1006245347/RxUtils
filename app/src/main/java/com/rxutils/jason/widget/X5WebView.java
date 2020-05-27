@@ -71,7 +71,7 @@ public class X5WebView extends WebView {
     @Override
     protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
         boolean ret = super.drawChild(canvas, child, drawingTime);
-        GlobalCode.printLog("draw>>>");
+//        GlobalCode.printLog("draw>>>");
         canvas.save();
         Paint paint = new Paint();
         paint.setColor(0x7fff0000);
@@ -99,7 +99,7 @@ public class X5WebView extends WebView {
         setBackgroundColor(85621);
     }
 
-    @Override
+   /* @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         //如果不做任何处理，浏览网页，点击系统“Back”键，整个Browser会调用finish()而结束自身，
         // 如果希望浏览的网 页回退而不是推出浏览器，需要在当前Activity中处理并消费掉该Back事件。
@@ -108,5 +108,5 @@ public class X5WebView extends WebView {
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
+    }*/
 }

@@ -23,10 +23,7 @@ import com.rxutils.jason.common.AppLanguageUtils;
 import com.rxutils.jason.common.SetConfig;
 import com.rxutils.jason.common.UIhelper;
 import com.rxutils.jason.global.GlobalCode;
-import com.rxutils.jason.http.ApiEngine;
-import com.rxutils.jason.ui.launcher.LauncherAty;
 import com.rxutils.jason.ui.launcher.LauncherAty2;
-import com.rxutils.jason.ui.sydialoglib.DialogUtil;
 import com.rxutils.jason.ui.sydialoglib.IDialog;
 import com.rxutils.jason.ui.sydialoglib.SYDialog;
 import com.rxutils.jason.ui.test.BrowserAty;
@@ -72,10 +69,10 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, DarkTestAty.class);
             startActivityForResult(intent, MainActivity.CODE_CHANGE_LANGUAGE);
         } else if (position == 3) {
-            BrowserAty.launchBrowser(this, SetConfig.URL_GREE_TEST1);
+            BrowserAty.launchBrowser(this, SetConfig.URL_GREE_VR_PRODUCT);
         } else if (position == 4) {
             ToastUtil.showToast("热更新补丁下载，成功更新效果图？");
-//            handleFixedHot();
+            handleFixedHot();
         } else if (position == 5) {
             UIhelper.switch2Aty(this, LauncherAty2.class);
         } else if (position == 6) {

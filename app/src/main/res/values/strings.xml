@@ -21,7 +21,7 @@
 
     <!--    测试数据-->
     <string name="str_app_test">程序测试用例</string>
-    <string name="test_change_language">没错，这就是四室的部门群~欢迎回家~</string>
+    <string name="test_change_language">没错3，这就是四室的部门群~欢迎回家~</string>
     <string name="str_change_language">语言切换</string>
     <string name="str_go_browser">跳转浏览器</string>
     <string name="str_chinese">中文</string>

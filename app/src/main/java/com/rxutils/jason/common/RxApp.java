@@ -255,7 +255,7 @@ public class RxApp extends Application {
     }
 
     private void initTinker() {
-        //设置是否提示用户重启，默认false
+        //设置是否提示用户重启，默认false,这样会在应用下次启动才应用成功
         Beta.canNotifyUserRestart = true;
         Beta.betaPatchListener = new BetaPatchListener() {
             @Override
@@ -297,8 +297,8 @@ public class RxApp extends Application {
         Bugly.setIsDevelopmentDevice(getContext(), true);
         Bugly.setUserId(this, "jason_GREE");
         Bugly.setUserTag(this, 123456);
-        Bugly.putUserData(this, SetConfig.CODE_USER_TOKEN, "jason_token");
-        Bugly.setAppChannel(this, "bugly");
+//        Bugly.putUserData(this, SetConfig.CODE_USER_TOKEN, "jason_token");
+//        Bugly.setAppChannel(this, "bugly");
     }
 
     private void getAppUpdateInfo() {
